@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">InstagramCLone</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="submit">Submit</string>
+    <string name="signg_up">Signg up</string>
+    <string name="email">email</string>
+    <string name="sign_up">Sign Up</string>
+</resources>
