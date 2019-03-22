@@ -16,7 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
+//import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     EditText description;
     Button takeImage;
     ImageView post;
+    ImageView photoIcon;
+    ImageView directMessage;
     Button submit;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -39,15 +42,24 @@ public class MainActivity extends AppCompatActivity {
     File photoFile;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         description = findViewById(R.id.etDescription);
         takeImage = findViewById(R.id.BtnCaptureImage);
         post = findViewById(R.id.ivImage);
         submit = findViewById(R.id.BtnSubmit);
+        photoIcon = findViewById(R.id.ivPhoto);
+        directMessage = findViewById(R.id.ivDirectMessage);
+        
+
+        directMessage.setImageResource(R.mipmap.ic_ufi_new_direct);
 
         //when everything is being loaded you want to view all of the posting
         //query for the post in the backend
