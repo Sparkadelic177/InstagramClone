@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -18,6 +19,7 @@ public class Signup extends AppCompatActivity {
     private EditText email;
     private EditText password;
     private Button  submit;
+    ImageView instagramLogo;
 
 
     @Override
@@ -29,6 +31,9 @@ public class Signup extends AppCompatActivity {
         username = findViewById(R.id.etUsername);
         password = findViewById(R.id.etPassword);
         submit = findViewById(R.id.BtnNewUser);
+        instagramLogo = findViewById(R.id.ivInstagram);
+
+        instagramLogo.setImageResource(R.mipmap.ic_icon_round);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

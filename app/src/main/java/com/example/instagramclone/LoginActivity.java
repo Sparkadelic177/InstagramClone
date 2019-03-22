@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.parse.LogInCallback;
@@ -20,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText tvPassword;
     private Button submit;
     private Button signUp;
+    ImageView instagramLogo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,9 @@ public class LoginActivity extends AppCompatActivity {
         tvPassword = findViewById(R.id.pwInput);
         submit = findViewById(R.id.BtnSubmit);
         signUp = findViewById(R.id.BtnSignup);
+        instagramLogo = findViewById(R.id.ivInstagram);
+
+        instagramLogo.setImageResource(R.mipmap.ic_icon_round);
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
