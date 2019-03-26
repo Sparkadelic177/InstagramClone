@@ -8,4 +8,11 @@
     <string name="instagram">Instagram</string>
     <string name="sign_up">Sign Up</string>
     <string name="log_in">Log In</string>
+    <string name="home_button">home button</string>
+    <string name="post_button">post button</string>
+    <string name="profile_button">profile button</string>
+    <string name="logout_button">logout button</string>
+    <string name="button">Button</string>
+    <string name="log_out">Log Out</string>
+    <string name="description">Description</string>
 </resources>

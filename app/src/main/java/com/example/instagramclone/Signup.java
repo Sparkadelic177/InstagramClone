@@ -66,7 +66,7 @@ public class Signup extends AppCompatActivity {
     }
 
     private void gotoMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, TimelineActivity.class);
         startActivity(i);
         finish(); //closes this login activity and keeps the modal(opened activity) as main
     }

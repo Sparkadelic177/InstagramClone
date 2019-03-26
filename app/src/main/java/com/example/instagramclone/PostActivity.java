@@ -1,9 +1,9 @@
 package com.example.instagramclone;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -28,64 +28,140 @@ import com.parse.SaveCallback;
 import java.io.File;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class PostActivity extends AppCompatActivity {
 
+    Context context;
     EditText description;
-    Button takeImage;
     ImageView post;
     ImageView photoIcon;
     ImageView directMessage;
+    ImageView btnHome;
+    ImageView btnPost;
+    ImageView btnProfile;
     Button submit;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
-    public final String APP_TAG = "MainActivity";
+    public final String APP_TAG = "PostActivity";
     File photoFile;
-
-
+    File imageFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_post);
+
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Toolbar bottomnav = findViewById(R.id.bottomnav);
+        setSupportActionBar(bottomnav);
+
+        imageFile = getPhotoFileUri(photoFileName);
+        Bitmap takenImage = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+
         description = findViewById(R.id.etDescription);
-        takeImage = findViewById(R.id.BtnCaptureImage);
         post = findViewById(R.id.ivImage);
         submit = findViewById(R.id.BtnSubmit);
         photoIcon = findViewById(R.id.ivPhoto);
         directMessage = findViewById(R.id.ivDirectMessage);
-        
+        btnHome = findViewById(R.id.BtnHome);
+        btnPost = findViewById(R.id.BtnNewPost);
+        btnProfile = findViewById(R.id.BtnProfile);
 
-        directMessage.setImageResource(R.mipmap.ic_ufi_new_direct);
+        post.setImageBitmap(takenImage);
 
-        //when everything is being loaded you want to view all of the posting
-        //query for the post in the backend
 
-        takeImage.setOnClickListener(new View.OnClickListener() {
+        btnHome.setImageResource(R.mipmap.ic_home_outline);
+        btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLaunchCamera();
+                nav("home");
             }
         });
 
+        btnPost.setImageResource(R.mipmap.ic_new_post_outline);
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nav("post");
+            }
+        });
+
+        btnProfile.setImageResource(R.mipmap.ic_user_outline);
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nav("profile");
+            }
+        });
+
+        //used to submit the post to the server
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String etDescription = description.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
-                if(photoFile == null || post.getDrawable() == null){
-                    Log.e("MainActivity", "There is no Photo");
-                    Toast.makeText(MainActivity.this, "There is no Photo", Toast.LENGTH_SHORT).show();
-                    return; //no image no posting.
+//                if(photoFile == null || post.getDrawable() == null || imageFile == null ){
+//                    Log.e("PostActivity", "There is no Photo");
+//                    Toast.makeText(PostActivity.this, "There is no Photo", Toast.LENGTH_SHORT).show();
+//                    return; //no image no posting.
+//                }
+                if(imageFile != null){
+                    savePost(etDescription, user, imageFile);
+                }else{
+                    savePost(etDescription, user, photoFile);
                 }
-                savePost(etDescription, user, photoFile);
             }
         });
 //        postQuery();
     }
+
+    private void nav(String whereTo) {
+        Intent i;
+        if(whereTo.equals("home")){
+            i = new Intent(this, TimelineActivity.class);
+            startActivity(i);
+            finish();
+        }else if(whereTo.equals("post")){
+            onLaunchCamera();
+        }else if(whereTo.equals("profile")){
+            Log.d("app", "it is going to the profile page");
+            try{
+                i = new Intent(this, Profile.class);
+                startActivity(i);
+                finish();
+            }catch (Exception e){
+                Log.e("app", "something went wrong " + e.getMessage());
+            }
+
+        }else{
+            Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    //sending the image to the backed
+    private void savePost(String etDescription, ParseUser user, File photoFile) {
+
+        Post upload = new Post();
+        upload.setDescription(etDescription);
+        upload.setUser(user);
+        upload.setImage(new ParseFile(photoFile));
+        upload.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if( e!=null){
+                    Log.e("failed", "something went wrong " + e.getMessage());
+                    return;
+                }
+                Log.d("worked", "We have successfully posted something");
+                description.setText(""); //clear the edit view
+                post.setImageResource(0); //clear the image
+            }
+        });
+    }
+
 
     private void onLaunchCamera() {
 
@@ -97,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         // wrap File object into a content provider
         // required for API >= 24
         // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
-        Uri fileProvider = FileProvider.getUriForFile(MainActivity.this, "com.codepath.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(PostActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
@@ -106,15 +182,15 @@ public class MainActivity extends AppCompatActivity {
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
         }
-    }
 
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // by this point we have the camera photo on disk
-                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // RESIZE BITMAP, see section below
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 // Load the taken image into a preview
                 post.setImageBitmap(takenImage);
             } else { // Result was a failure
@@ -139,36 +215,5 @@ public class MainActivity extends AppCompatActivity {
 
         return file;
     }
-
-    private void savePost(String etDescription, ParseUser user, File photoFile) {
-        Post upload = new Post();
-        upload.setDescription(etDescription);
-        upload.setUser(user);
-        upload.setImage(new ParseFile(photoFile));
-        upload.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if( e!=null){
-                    Log.e("failed", "something went wrong " + e.getMessage());
-                    return;
-                }
-                Log.d("worked", "We have successfully posted something");
-                description.setText(""); //clear the edit view
-                post.setImageResource(0); //clear the image
-            }
-        });
-    }
-
-    private void postQuery() {
-        final ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
-        postQuery.include(Post.KEY_USER); //include the user for each post
-        postQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                for (int i = 0; i < objects.size() ; i++) {
-                    Log.d("mainAct", "Post: " + objects.get(i).getDescription() + " username: " + objects.get(i).getUser().getUsername());
-                }
-            }
-        });
-    }
 }
+

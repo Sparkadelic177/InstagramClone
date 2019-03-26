@@ -28,6 +28,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ParseUser currentuser = ParseUser.getCurrentUser();
+
+        if(currentuser != null){
+            gotoMainActivity();
+        }
+
 
         tvUsername = findViewById(R.id.unText);
         tvPassword = findViewById(R.id.pwInput);
@@ -76,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void gotoMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, TimelineActivity.class);
         startActivity(i);
         finish(); //closes this login activity and keeps the modal(opened activity) as main
     }
