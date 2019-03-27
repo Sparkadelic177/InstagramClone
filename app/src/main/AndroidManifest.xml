@@ -26,8 +26,6 @@
         </provider>
 
         <activity android:name=".Signup" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".Profile" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

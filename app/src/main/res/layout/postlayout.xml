@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvHandle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Title"
+        tools:text="Sparky" />
 
     <ImageView
         android:id="@+id/ivPost"
         android:layout_width="match_parent"
-        android:layout_height="287dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -22,7 +30,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="50dp"
+        android:layout_marginBottom="16dp">
 
         <ImageView
             android:id="@+id/ivHeart"
@@ -63,9 +72,9 @@
             android:id="@+id/ivSave"
             android:layout_width="30dp"
             android:layout_height="287dp"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            tools:srcCompat="@tools:sample/avatars"
-            android:layout_alignParentEnd="true" />
+            tools:srcCompat="@tools:sample/avatars" />
 
     </RelativeLayout>
 </LinearLayout>
