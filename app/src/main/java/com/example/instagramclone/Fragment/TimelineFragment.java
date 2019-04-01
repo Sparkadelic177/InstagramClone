@@ -81,8 +81,8 @@ public class TimelineFragment extends Fragment {
     protected void postQuery() {
         final ParseQuery<Post> postQuery = new ParseQuery<>(Post.class);
         postQuery.include(Post.KEY_USER); //include the user for each post
-//        postQuery.setLimit(20);
-//        postQuery.addDescendingOrder(Post.KEY_CREATED_AT);
+        postQuery.setLimit(20);
+        postQuery.addDescendingOrder(Post.KEY_CREATED_AT);
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> objects, ParseException e) {
