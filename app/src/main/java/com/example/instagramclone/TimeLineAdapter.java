@@ -47,9 +47,10 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
         ParseFile image = post.getImage();
         String url = image.getUrl();
+        String https = stringConverter(url);
         if(url != null) {
-            Glide.with(context).load(image.getUrl()).into(viewHolder.ivPost);
-            Log.d("url_image", "this is the url " + url);
+            Glide.with(context).load(https).into(viewHolder.ivPost);
+            Log.d("url_image", "this is the url " + https);
         }
 
 
@@ -60,6 +61,18 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 //        Bitmap bmp = imageTask.doInBackground(image.getUrl());
 //        imageTask.onPostExecute(bmp);
 
+    }
+
+    private String stringConverter(String url) {
+        String newLink = " ";
+        char[] link = url.toCharArray();
+        for(int i = 0; i < link.length; i++){
+            newLink += link[i];
+            if(i == 3) newLink += 's';
+        }
+        Log.d("string", newLink);
+        newLink = newLink.trim();
+        return newLink;
     }
 
     @Override
