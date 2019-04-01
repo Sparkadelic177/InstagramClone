@@ -9,7 +9,7 @@ Time spent: **6** hours spent in total
 The following **required** functionality is completed:
 
 - [x] User can view the last 20 posts submitted to "Instagram".
-- [ ] User can pull to refresh the last 20 posts submitted to "Instagram".
+- [x] User can pull to refresh the last 20 posts submitted to "Instagram".
 - [x] The user should switch between different tabs - viewing all posts (feed view), capture (camera and photo gallery view) and profile tabs (posts made) using fragments and a Bottom Navigation View. 
 
 The following **optional** features are implemented:
