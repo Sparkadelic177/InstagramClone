@@ -30,8 +30,10 @@ public class LoginActivity extends AppCompatActivity {
 
         ParseUser currentuser = ParseUser.getCurrentUser();
 
+
         if(currentuser != null){
             gotoMainActivity();
+            Toast.makeText(this, currentuser.getUsername(), Toast.LENGTH_SHORT).show();
         }
 
 

@@ -12,12 +12,12 @@ public class ParseClass extends Application {
         super.onCreate();
 
         ParseObject.registerSubclass(Post.class);
+
+//        ParseObject.registerSubclass(User.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("sparky-instagram") // should correspond to APP_ID env variable
                 .clientKey("SparkysInstagramboi")  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server("https://sparky-instagram.herokuapp.com/parse").build());
-
-
     }
 }
 

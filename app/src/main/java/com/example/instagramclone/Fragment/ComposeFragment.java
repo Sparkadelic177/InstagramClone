@@ -35,10 +35,10 @@ public class ComposeFragment extends Fragment {
     public String photoFileName = "photo.jpg";
     public final String APP_TAG = "PostActivity";
     File photoFile;
-    File imageFile;
     EditText description;
     ImageView post;
     Button submit;
+    Button takePicture;
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -57,20 +57,27 @@ public class ComposeFragment extends Fragment {
         description = view.findViewById(R.id.etDescription);
         post = view.findViewById(R.id.ivImage);
         submit = view.findViewById(R.id.BtnSubmit);
+        takePicture = view.findViewById(R.id.btnTakePicture);
+
+        takePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onLaunchCamera();
+            }
+        });
+
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String etDescription = description.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
-//                if(photoFile == null || post.getDrawable() == null || imageFile == null ){
-//                    Log.e("PostActivity", "There is no Photo");
-//                    Toast.makeText(PostActivity.this, "There is no Photo", Toast.LENGTH_SHORT).show();
-//                    return; //no image no posting.
-//                }
-                if(imageFile != null){
-                    savePost(etDescription, user, imageFile);
-                }else{
+                if(photoFile == null || post.getDrawable() == null){
+                    Log.e("PostActivity", "There is no Photo");
+                    Toast.makeText(getContext(), "There is no Photo", Toast.LENGTH_SHORT).show();
+                    return; //no image no posting.
+                }
+                else{
                     savePost(etDescription, user, photoFile);
                 }
             }

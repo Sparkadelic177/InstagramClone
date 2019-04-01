@@ -2,7 +2,9 @@ package com.example.instagramclone;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.parse.ParseFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +21,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
 
     private Context context; //to let the other pages whats going on here
     private List<Post> posts; //the list are going to have the model class methods to get data
-
 
 
     //constructor for when we call this class through the TimeLineActivity class
@@ -34,7 +34,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         //inflating the parent layout with the layout tweet, returning a view
-        View view = LayoutInflater.from(context).inflate(R.layout.postlayout, viewGroup, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.post_item, viewGroup, false);
         //calling the constructor passing the view to return a ViewHolder
         return new ViewHolder(view);
     }
@@ -44,13 +44,21 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Post post = posts.get(i);
-        ParseFile parseFile = post.getImage();
+
+        ParseFile image = post.getImage();
+        String url = image.getUrl();
+        if(url != null) {
+            Glide.with(context).load(image.getUrl()).into(viewHolder.ivPost);
+            Log.d("url_image", "this is the url " + url);
+        }
+
 
         viewHolder.tvHandle.setText(post.getUser().getUsername());
         viewHolder.tvDescription.setText(post.getDescription());
 
-        if(parseFile != null)
-            Glide.with(context).load(parseFile.getUrl()).into(viewHolder.ivPost);
+//        DownloadImageTask imageTask = new DownloadImageTask(ivPost);
+//        Bitmap bmp = imageTask.doInBackground(image.getUrl());
+//        imageTask.onPostExecute(bmp);
 
     }
 
@@ -66,16 +74,22 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
+
+
 
     //this is where the layout is defind
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView ivPost;
-        ImageView ivHeart;
-        ImageView ivSend;
-        ImageView ivComment;
-        ImageView ivSave;
-        TextView tvDescription;
-        TextView tvHandle;
+        private ImageView ivHeart;
+        private ImageView ivSend;
+        private ImageView ivComment;
+        private ImageView ivSave;
+        private TextView tvDescription;
+        private TextView tvHandle;
+        private ImageView ivPost;
 
 
         public ViewHolder(View itemView){
@@ -95,4 +109,27 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         }
 
     }
+
+//    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+//        ImageView bmImage;
+//        public DownloadImageTask(ImageView bmImage) {
+//            this.bmImage = bmImage;
+//        }
+//
+//        protected Bitmap doInBackground(String... urls) {
+//            String urldisplay = urls[0];
+//            Bitmap bmp = null;
+//            try {
+//                InputStream in = new java.net.URL(urldisplay).openStream();
+//                bmp = BitmapFactory.decodeStream(in);
+//            } catch (Exception e) {
+//                Log.e("Error" , e.getMessage());
+//                e.printStackTrace();
+//            }
+//            return bmp;
+//        }
+//        protected void onPostExecute(Bitmap result) {
+//            ivPost.setImageBitmap(result);
+//        }
+//    }
 }
