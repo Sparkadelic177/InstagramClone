@@ -41,6 +41,9 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 The images dont seem to show in the recycler view, but the images exists in the backend and the application does find it when querying for it. I had an error saying that clearText HTTP is permitted and thats probably the reason why I don't have any images poping up at the recycler view.
 
+UPDATE:
+I come back to fix it after asking some question in my bootcamp cohort because I couldn't live with myself if I didn't fix it and the problem was that the image was being fetched with a "http" heading instead of the "https" heading. So I converted the string to say HTTPS and it worked !
+
 ## Open-source libraries used
 
 - [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
