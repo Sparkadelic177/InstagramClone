@@ -39,7 +39,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-The images dont seem to show in the recycler view, bu the image exists. I had an error saying that clearText HTTP is permitted and I beleive that, that is the reason why I don't have image poping up at the recycler view.
+The images dont seem to show in the recycler view, but the images exists in the backend and the application does find it when querying for it. I had an error saying that clearText HTTP is permitted and thats probably the reason why I don't have any images poping up at the recycler view.
 
 ## Open-source libraries used
 
@@ -97,7 +97,7 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-When trying to go from the launch Camera to the compose section which shows the image was challenging, what I learned is that the image is saved on the phone so once the activity is being lanuched I told the computer to search for the most recent photo on the the phones storage and post that, which was fun once I learned it.
+When trying to go from the launch Camera to the compose section which shows the image was challenging, the image that was taken was not showing up in the new activity. What I learned is that the image is saved on the phone so once the activity is being lanuched I told the computer to search for the most recent photo on the the phones storage and post that, which was fun once I learned it.
 
 ## Open-source libraries used
 
